@@ -1,0 +1,19 @@
+name: Publish Docker image
+on: push
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+
+      - name: Build docker image
+        uses: deejayadi/docker-buildx@v1
+        with:
+          login: ${{secrets.login}}
+          token: ${{secrets.token}}
+          label: deejayadi/nfs-server
+          tags: latest
+          platforms: linux/amd64,linux/arm64
+          push: true
